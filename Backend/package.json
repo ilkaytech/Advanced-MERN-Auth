@@ -26,6 +26,7 @@
     "qrcode": "^1.5.4",
     "resend": "^4.0.1",
     "speakeasy": "^2.0.0",
+    "uuid": "^11.0.3",
     "zod": "^3.23.8"
   },
   "devDependencies": {
