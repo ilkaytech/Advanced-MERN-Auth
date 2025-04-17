@@ -280,4 +280,7 @@ export class AuthService {
       user: updatedUser,
     };
   }
+  public async logout(sessionId: string) {
+    return await SessionModel.findByIdAndDelete(sessionId);
+  }
 }
