@@ -3,9 +3,9 @@ import { asyncHandler } from "../../middlewares/asyncHandler";
 import { AuthService } from "./auth.service";
 import { HTTPSTATUS } from "../../config/http.config";
 import {
+  emailSchema,
   loginSchema,
   registerSchema,
-  verificationCodeSchema,
   verificationEmailSchema,
 } from "../../common/validators/auth.validator";
 import {
@@ -98,6 +98,17 @@ export class AuthController {
 
       return res.status(HTTPSTATUS.OK).json({
         message: "Email verified successfully",
+      });
+    }
+  );
+
+  public forgotPassword = asyncHandler(
+    async (req: Request, res: Response): Promise<any> => {
+      const email = emailSchema.parse(req.body.email);
+      await this.authService.forgotPassword(email);
+
+      return res.status(HTTPSTATUS.OK).json({
+        message: "Password reset email sent",
       });
     }
   );
