@@ -19,7 +19,6 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from "../../common/utils/catch-errors";
-
 export class AuthController {
   private authService: AuthService;
 
