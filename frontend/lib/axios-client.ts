@@ -1,8 +1,7 @@
 import axios from "axios";
-import { error } from "console";
 
-const option = {
-  baseUrl: process.env.NEXT_PUBLİC_API_BASE_URL,
+const options = {
+  baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
   withCredentials: true,
   timeout: 10000,
 };
@@ -15,5 +14,12 @@ API.interceptors.response.use(
   },
   (error) => {
     const { data, status } = error.response;
+    if (data === "Unauthorized" && status === 401) {
+    }
+    return Promise.reject({
+      ...data,
+    });
   }
 );
+
+export default API;

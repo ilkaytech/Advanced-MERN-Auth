@@ -2,7 +2,7 @@ export const verifyEmailTemplate = (
   url: string,
   brandColor: string = "#2563EB"
 ) => ({
-  subject: "Confirm your Squeezy account",
+  subject: "Confirm your ilkaytech account",
   text: `Please verify your email address by clicking the following link: ${url}`,
   html: `
     <html><head><style>
