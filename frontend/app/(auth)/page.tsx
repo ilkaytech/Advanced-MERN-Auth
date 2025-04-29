@@ -1,101 +1,169 @@
-import Image from "next/image";
+"use client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { ArrowRight, Loader } from "lucide-react";
+import { z } from "zod";
+import Link from "next/link";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import Logo from "@/components/logo";
+import { loginMutationFn } from "@/lib/api";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { toast } from "@/hooks/use-toast";
 
-export default function Home() {
+export default function Login() {
+  const router = useRouter();
+  const { mutate, isPending } = useMutation({
+    mutationFn: loginMutationFn,
+  });
+
+  const formSchema = z.object({
+    email: z.string().trim().email().min(1, {
+      message: "Email is required",
+    }),
+    password: z.string().trim().min(1, {
+      message: "Password is required",
+    }),
+  });
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    mutate(values, {
+      onSuccess: (response) => {
+        if (response.data.mfaRequired) {
+          router.replace(`/verify-mfa?email=${values.email}`);
+          return;
+        }
+        router.replace(`/home`);
+      },
+      onError: (error) => {
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        });
+      },
+    });
+  };
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <main className="w-full min-h-[590px] h-auto max-w-full pt-10">
+      <div className="w-full h-full p-5 rounded-md">
+        <Logo />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
+        <h1 className="text-xl tracking-[-0.16px] dark:text-[#fcfdffef] font-bold mb-1.5 mt-8 text-center sm:text-left">
+          Log in to Squeezy
+        </h1>
+        <p className="mb-8 text-center sm:text-left text-base dark:text-[#f1f7feb5] font-normal">
+          Don't have an account?{" "}
+          <Link className="text-primary" href="/signup">
+            Sign up
+          </Link>
+          .
+        </p>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <div className="mb-4">
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="dark:text-[#f1f7feb5] text-sm">
+                      Email
+                    </FormLabel>
+                    <FormControl>
+                      <Input placeholder="subscribeto@channel.com" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="mb-4">
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="dark:text-[#f1f7feb5] text-sm">
+                      Password
+                    </FormLabel>
+                    <FormControl>
+                      <Input placeholder="••••••••••••" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="mb-4 flex w-full items-center justify-end">
+              <Link
+                className="text-sm dark:text-white"
+                href="/reset-password?email="
+              >
+                Forgot your password?
+              </Link>
+            </div>
+            <Button
+              className="w-full text-[15px] h-[40px] text-white font-semibold"
+              disabled={isPending}
+              type="submit"
+            >
+              {isPending && <Loader className="animate-spin" />}
+              Sign in
+              <ArrowRight />
+            </Button>
+
+            <div className="mb-6 mt-6 flex items-center justify-center">
+              <div
+                aria-hidden="true"
+                className="h-px w-full bg-[#eee] dark:bg-[#d6ebfd30]"
+                data-orientation="horizontal"
+                role="separator"
+              ></div>
+              <span className="mx-4 text-xs dark:text-[#f1f7feb5] font-normal">
+                OR
+              </span>
+              <div
+                aria-hidden="true"
+                className="h-px w-full bg-[#eee] dark:bg-[#d6ebfd30]"
+                data-orientation="horizontal"
+                role="separator"
+              ></div>
+            </div>
+          </form>
+        </Form>
+        <Button variant="outline" className="w-full h-[40px]">
+          Email magic link
+        </Button>
+        <p className="text-xs dark:text-slate- font-normal mt-7">
+          By signing in, you agree to our{" "}
+          <a className="text-primary hover:underline" href="#">
+            Terms of Service
+          </a>{" "}
+          and{" "}
+          <a className="text-primary hover:underline" href="#">
+            Privacy Policy
           </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          .
+        </p>
+      </div>
+    </main>
   );
 }
