@@ -1,6 +1,7 @@
 import API from "./axios-client";
 
 type forgotPasswordType = { email: string };
+type resetPasswordType = { password: string; verificationCode: string };
 
 type LoginType = {
   email: string;
@@ -22,3 +23,6 @@ export const registerMutationFn = async (data: registerType) =>
 
 export const forgotPasswordMutationFn = async (data: forgotPasswordType) =>
   await API.post(`/auth/password/forgot`, data);
+
+export const resetPasswordMutationFn = async (data: resetPasswordType) =>
+  await API.post(`/auth/password/reset`, data);
