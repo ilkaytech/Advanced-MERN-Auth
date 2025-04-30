@@ -15,11 +15,16 @@ type registerType = {
   confirmPassword: string;
 };
 
+type verifyEmailType = { code: string };
+
 export const loginMutationFn = async (data: LoginType) =>
   await API.post("/auth/login", data);
 
 export const registerMutationFn = async (data: registerType) =>
   await API.post(`/auth/register`, data);
+
+export const verifyEmailMutationFn = async (data: verifyEmailType) =>
+  await API.post(`/auth/verify/email`, data);
 
 export const forgotPasswordMutationFn = async (data: forgotPasswordType) =>
   await API.post(`/auth/password/forgot`, data);
