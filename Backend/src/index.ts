@@ -43,7 +43,23 @@ app.use(`${BASE_PATH}/session`, authenticateJWT, sessionRoutes);
 
 app.use(errorHandler);
 
-app.listen(config.PORT, async () => {
-  console.log(`Server listening on port ${config.PORT} in ${config.NODE_ENV}`);
-  await connectDatabase();
+import swaggerUi from "swagger-ui-express";
+import { swaggerSpec } from "./config/swagger.config";
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+app.get("/api-docs-json", (_req, res) => {
+  res.setHeader("Content-Type", "application/json");
+  res.send(swaggerSpec);
 });
+
+if (config.NODE_ENV !== "test") {
+  app.listen(config.PORT, async () => {
+    console.log(
+      `Server listening on port ${config.PORT} in ${config.NODE_ENV}`
+    );
+    await connectDatabase();
+  });
+}
+
+export default app;

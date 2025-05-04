@@ -67,6 +67,21 @@ npm run dev
 
 ---
 
+## API Documentation
+
+**Swagger**
+
+- 🔗 [View Swagger UI](http://localhost:8000/api-docs)
+- 🔗 [Download Swagger JSON](http://localhost:8000/api-docs-json)
+
+You can import the JSON file into tools like **Postman**
+
+<p align="center">
+  <img src="screenshots/swagger-ui.png" alt="Swagger UI Screenshot" width="600" />
+</p>
+
+---
+
 Application Screenshots
 
 <p align="center"> <a href="screenshots/Sign in.png" target="_blank"><img src="screenshots/Sign in.png" width="180" alt="Sign In" /></a> <a href="screenshots/Sign up.png" target="_blank"><img src="screenshots/Sign up.png" width="180" alt="Sign Up" /></a> <a href="screenshots/Reset-password.png" target="_blank"><img src="screenshots/Reset-password.png" width="180" alt="Check Email" /></a> <a href="screenshots/confirm-your-email.png" target="_blank"><img src="screenshots/confirm-your-email.png" width="180" alt="Confirm Email" /></a> <a href="screenshots/account-confirmation.png" target="_blank"><img src="screenshots/account-confirmation.png" width="180" alt="Account Confirmation" /></a> <a href="screenshots/check-your-email.png" target="_blank"><img src="screenshots/check-your-email.png" width="180" alt="2FA Setup" /></a> <a href="screenshots/session-list.png" target="_blank"><img src="screenshots/session-list.png" width="180" alt="Session List" /></a> <a href="screenshots/dashboard_1.png" target="_blank"><img src="screenshots/dashboard_1.png" width="180" alt="Dashboard" /></a> <a href="screenshots/2FA-Setup.png" target="_blank"><img src="screenshots/2FA-Setup.png" width="180" alt="Reset Password" /></a> <a href="screenshots/Log-out.png" target="_blank"><img src="screenshots/Log-out.png" width="180" alt="Logout" /></a> <a href="screenshots/dark-mode.png" target="_blank"><img src="screenshots/dark-mode.png" width="180" alt="Dark Mode" /></a> </p>
