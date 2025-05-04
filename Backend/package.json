@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "dev": "ts-node-dev --files src/index.ts",
     "build": "tsc && cp ./package.json ./dist",
     "start": "node dist/index.js"
@@ -26,6 +26,8 @@
     "qrcode": "^1.5.4",
     "resend": "^4.0.1",
     "speakeasy": "^2.0.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
     "uuid": "^11.0.3",
     "zod": "^3.23.8"
   },
@@ -35,12 +37,20 @@
     "@types/cors": "^2.8.17",
     "@types/dotenv": "^8.2.3",
     "@types/express": "^5.0.0",
+    "@types/jest": "^29.5.14",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/mongoose": "^5.11.97",
     "@types/passport": "^1.0.17",
     "@types/passport-jwt": "^4.0.1",
     "@types/qrcode": "^1.5.5",
     "@types/speakeasy": "^2.0.10",
+    "@types/supertest": "^6.0.3",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.8",
+    "jest": "^29.7.0",
+    "mongodb-memory-server": "^10.1.4",
+    "supertest": "^7.1.0",
+    "ts-jest": "^29.3.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.7.2"
   }
