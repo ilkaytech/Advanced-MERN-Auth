@@ -71,8 +71,8 @@ npm run dev
 
 **Swagger**
 
-- 🔗 [View Swagger UI](http://localhost:8000/api-docs)
-- 🔗 [Download Swagger JSON](http://localhost:8000/api-docs-json)
+- 🔗 [View Swagger UI](http://api-docs)
+- 🔗 [Download Swagger JSON](http://api-docs-json)
 
 You can import the JSON file into tools like **Postman**
 
